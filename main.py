@@ -1,17 +1,19 @@
 from easyAI import TwoPlayerGame
 """
 * Game of NIM *
+
+https://en.wikipedia.org/wiki/Nim
+
 Nim to gra, w której dwóch graczy na zmianę bierze obiekty z kilku stosów.
 Jedyną zasadą jest to, że każdy gracz musi wziąć minimum jeden lub więcej obiektór, 
 o ile wszystkie pochodzą z tego samego stosu.
 
-Autorzyu:
+Autorzy:
 - Bartosz Krystowski s19545
 - Robert Brzoskowski s21162
 
 Przygotowanie środowiska:
-Instalacja EasyAI - "- pip install easyai"
-
+Instalacja EasyAI - "pip install easyai"
 """
 
 class Nim(TwoPlayerGame):
@@ -26,12 +28,12 @@ class Nim(TwoPlayerGame):
             self.players = players: wybór gracza pomiędzy człowiekiem, a AI (linijka 74)
             self.max_remove = max_remove: Ile obietków zostaje usuniętych z danego stosu
             self.piles = list(piles): Parametr na ten moment ustawiony na piles=(5,5,5,5), czyli 4 stosy po 5 obiektów w każdym
-            self.current_player = 1: aktualny gracz = 1, czyli człowiek
+            self.current_player = 1: aktualny gracz = 1, czyli człowiek - określa, który gracz rozpoczyna grę
         """
         self.players = players
         self.piles = list(piles)
         self.max_remove = max_remove
-        self.current_player = 1  # player 1 starts.
+        self.current_player = 1
 
     def possible_moves(self):
         """Możliwe do wykonania ruchy, po przecinku - stos,ile obiektów z niego usuwamy"""
@@ -72,20 +74,15 @@ class Nim(TwoPlayerGame):
 if __name__ == "__main__":
 
     from easyAI import AI_Player, Human_Player, Negamax
-    from easyAI import solve_with_iterative_deepening
-    from easyAI import TranspositionTable as TT
 
-    #AI Solving game (remove if you want to play)
-    w, d, m, tt = solve_with_iterative_deepening(Nim(), range(5, 20), win_score=80)
-    w, d, len(tt.d)
-
-    ai = Negamax(16, tt = TT())
+    ai = Negamax(3)
     """Ile ruchów do przodu obmyślać ma AI"""
-    game = Nim([Human_Player(), AI_Player(TT)])
+    game = Nim([Human_Player(), AI_Player(ai)])
     """Instancja tworzy grę z dwoma graczami - człowiekiem oraz AI z algorytmem Negamax podanym w argumencie AI_Player """
     game.play()
-    """Start gry"""
+    """Start gry
+    W grze uczestniczymy poprzez wpisanie po przecinku najpierw z którego stosu
+    chcemy zabrać obiekt następnie ile obiektów zabieramy
+    Przykład: 2,3"""
     print("player %d wins" % game.current_player)
     """Wypisanie na ekranie, który gracz okazał się zwycięzcą batalii"""
-    # Perfect AI is set by iterative table:
-    # >>> game = Nim( [ Human_Player(), AI_Player( tt )])
