@@ -47,11 +47,14 @@ regressor = DecisionTreeRegressor(random_state=0)
 regressor.fit(X, y)
 """
 Co przewidzieć ma program
-w tym akurat przypadku przewiduje jaka będzie wartość odszkodowania dla 61 zgłoszeń
+w tym akurat przypadku przewiduje jaka będzie wartość w odniesieniu do tego co wpisze użytkownik
 """
-y_pred = regressor.predict([[61]])
+input_pred = input("Enter number of claims for predicted payment: ")
 
-print(y_pred)
+y_pred = regressor.predict([[input_pred]])
+
+print('Predicted payment for {0} claims is {1}'.format(input_pred, y_pred))
+
 
 """
 Utworzenie zakresu wartości od minimalnej wartości X do maksymalnej wartości X
