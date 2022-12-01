@@ -15,6 +15,22 @@ Program przewiduje i oblicza przeciążenie przy pomocy danych.
 
 https://archive.ics.uci.edu/ml/machine-learning-databases/balance-scale/
 
+Przykład:
+
+Dataset:
+0  B  1  1  1  1
+1  R  1  1  1  2
+
+
+ID     Przeciążona strona    Waga pierwszego        Waga drugiego           Waga pierwszego         Waga drugiego
+        (R - Prawa,          odważnika strona       odważnika strona        odważnika strona        odważnika strona
+         L - Lewa,             lewa                 lewa                    prawa                   prawa
+          B - równo)
+          
+0           B                     1                     1                       1                           1
+1           R                     1                     1                       1                           2
+
+
 Autorzy:
 - Bartosz Krystowski s19545
 - Robert Brzoskowski s21162
