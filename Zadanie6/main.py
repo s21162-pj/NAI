@@ -12,7 +12,7 @@ Przygotowanie środowiska:
 Instalacja bibliotek cv2, dlib, face_utils
 """
 """Wczytaj obraz z kamerki lub wczytaj film z pliku"""
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('video1.mp4')
 
 """Wczytaj wideo / 'reklamę' z pliku"""
 ad_video = cv2.VideoCapture('video.mp4')
@@ -40,9 +40,10 @@ while True:
     """Odczytaj obrazek (zastępuje ret, frame = cap.read())"""
     # frame = cap
 
-    """Jeśli koniec filmu, zakończ pętlę (działa tylko w przypadku odczytywania obrazu z filmu)"""
+    """Jeśli koniec filmu, odtwórz film ponownie (działa tylko w przypadku odczytywania obrazu z filmu)"""
     if not ret:
-        break
+        cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+        continue
 
     """Konwertuj rozmiar okna"""
     frame = cv2.resize(frame, (640, 480))
@@ -55,6 +56,7 @@ while True:
 
     """Czy wykryto twarze"""
     if faces:
+
 
         """Dla każdej twarzy"""
         for face in faces:
@@ -86,25 +88,27 @@ while True:
             scaling = ((x2+y2)-(x1+y1))/50
 
             """Jeśli dystans między powiekami jest mniejszy niż 15px dystansu między oczami, oznacza to zamknięcie oka"""
-            if (left_eye_height + right_eye_height)/2 < (1.8*scaling):
+            if (left_eye_height + right_eye_height)/2 < (2.7*scaling):
                 cv2.putText(frame, "Eyes: closed", (0, 50), font, 1, (255,255,255), 2)
                 is_paused = True
-            elif (left_eye_height + right_eye_height)/2 >= (1.8*scaling):
+            elif (left_eye_height + right_eye_height)/2 >= (2.7*scaling):
                 cv2.putText(frame, "Eyes: opened", (0, 50), font, 1, (255,255,255), 2)
                 is_paused = False
 
             print(left_eye_height, right_eye_height)
-            print(2*scaling)
+            print(2.7*scaling)
             print((x2+y2)-(x1+y1))
 
             """Jeśli reklama nie jest zatrzymana wyświetl jej obraz"""
             if is_paused is not True:
                 ret_ad, frame_ad = ad_video.read()
+                """Jeśli reklama się skończyła, przerwij"""
+                if not ret_ad:
+                    break
                 frame_ad = cv2.resize(frame_ad, (640, 480))
                 cv2.imshow("ad", frame_ad)
 
     # Jeśli nie wykryto twarzy wyświetl komunikat
-
     else:
         cv2.putText(frame, "No face detected", (0, 50), font, 1, (0, 0, 255), 2)
 
@@ -128,6 +132,7 @@ while True:
     #        cap = cv2.imread('image4.jpg')
     #        image_nr = 1
     """
+
 
 """Zwolnij wszystkie zasoby"""
 cap.release()
